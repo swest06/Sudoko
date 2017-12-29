@@ -10,5 +10,5 @@ def test_convertToSets():
 
 def test_convertToInts():
     sets = [[{1, 2}, {3}, {4}], [{1}, {3, 5, 7}, {2}], [{2, 3}, {2}, {3}]]
-    new_set = [[0 , 3, 4], [1, 0, 2], [0, 2, 3]]
-    assert new_set == convertToInts(sets)
+    new_array2 = [[0 , 3, 4], [1, 0, 2], [0, 2, 3]]
+    assert new_array2 == convertToInts(sets)

@@ -10,3 +10,17 @@ def convertToSets(problem):
 
     return problem
 
+
+def convertToInts(problem):
+    
+    for lst in problem:
+        for i, x in enumerate(lst):
+            if len(x) > 1:
+                lst[i] = 0
+            else:
+                x = str(x)
+                x = x.replace('{', '').replace('}', '')
+                x = int(x)
+                lst[i] = x
+    
+    return problem

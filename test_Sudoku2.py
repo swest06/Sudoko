@@ -27,8 +27,8 @@ def test_GetColumnLocations():
 
 
 def test_GetBoxLocation():
-    box_2 = [(0, 4), (0, 5), (0, 6), (1, 4), (1, 5), (1, 6), (2, 4), (2, 5), (2, 6)]
-    assert box_2 == getBoxLocation((0,6))
+    box_2 = [(0, 3), (0, 4), (0, 5), (1, 3), (1, 4), (1, 5), (2, 3), (2, 4), (2, 5)]
+    assert box_2 == getBoxLocation((0,4))
 
 
 def test_Eliminate():

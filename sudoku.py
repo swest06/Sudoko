@@ -86,3 +86,11 @@ def eliminate(problem, location, listOfLocations):
     return count
 
 
+def isSolved(problem):
+    result = all([len(problem[r][c]) == 1 for r in range(0, 9)
+                                        for c in range(0, 9)])
+                                
+    return result
+    
+
+

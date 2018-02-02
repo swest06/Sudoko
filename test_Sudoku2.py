@@ -41,6 +41,11 @@ def test_Eliminate():
 
 def test_IsSolved():
     array = [[{1}] * 9] * 9
-    # TO DO
+    assert all([len(array[r][c]) == 1 for r in range(0, 9) for c in range(0, 9)])) == True
+    assert isSolved(array) == True
     
+
+    array[3][5] = {1, 2}
+    assert all([len(array[r][c]) == 1 for r in range(0, 9) for c in range(0, 9)])) == False
+    assert isSolved(array) == False
     

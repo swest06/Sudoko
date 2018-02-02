@@ -51,11 +51,38 @@ def getBoxLocations(location):
         [(6, 0), (6, 1), (6, 2), (7, 0), (7, 1), (7, 2), (8, 0), (8, 1), (8, 2)],
         [(6, 3), (6, 4), (6, 5), (7, 3), (7, 4), (7, 5), (8, 3), (8, 4), (8, 5)],
         [(6, 6), (6, 7), (6, 8), (7, 6), (7, 7), (7, 8), (8, 6), (8, 7), (8, 8)]]
-    
+
+    #Finds relevant list in ary that contains location tuple
     for lst in ary:
         for i, e in enumerate(lst):
             if e == l:
                result = lst
                
-    
     return result
+
+
+
+def eliminate(problem, location, listOfLocations):
+    ll = listOfLocations
+    count = 0
+    a = []
+    
+    #Creates index from location argument
+    in_1 = location[0]
+    in_2 = location[1]
+    num = int(str(problem[in_1][in_2]).replace('{', '').replace('}', ''))
+    
+    #Counts number of apperances of value num using listOfLocations
+    for tup in ll: 
+        for i in problem[tup[0]][tup[1]]:
+            if i == num:
+                a.append(tup)
+                count = count + 1
+    
+    #Removes num value from array if num appears in listOfLocations            
+    for tup in a:
+        problem[tup[0]][tup[1]].remove(num)
+        
+    return count
+
+

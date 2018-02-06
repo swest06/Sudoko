@@ -1,7 +1,6 @@
 import unittest
 from sudoku import *
 import copy
-
 class TestSudoku2011(unittest.TestCase):
 
     def testConvertToSets(self):
@@ -34,7 +33,7 @@ class TestSudoku2011(unittest.TestCase):
         self.assertEqual(2, count)
         self.assertEqual([[{1}, {3}, {4}], [{1}, {3, 5, 7}, {2}], [{2, 3}, {2}, {1, 3}]],
                          sets)
-                          
+
     def testIsSolved(self):
         # Just check whether every cell has been reduced to one number
         array = [[{1}] * 9] * 9

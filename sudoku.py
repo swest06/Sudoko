@@ -1,10 +1,19 @@
+'''Sean West swest06.
+    Sudoku solver.'''
+
+def read_sudoku(file):
+    stream = open(file)
+    data = stream.readlines()
+    stream.close()
+    return eval("".join(data))
+
+
 def convertToSets(problem):
-    z = set(range(1, 10))
 
     for lst in problem:
         for i, x in enumerate(lst):
             if x == 0:
-                lst[i] = z
+                lst[i] = {1, 2, 3, 4, 5, 6, 7, 8, 9}
             else:
                 lst[i] = {x}
 
@@ -14,18 +23,19 @@ def convertToSets(problem):
 def convertToInts(problem):
     for lst in problem:
         for i, x in enumerate(lst):
-            if len(x) > 1:
-                lst[i] = 0
-            else:
-                x = str(x.replace('{', '').replace('}', ''))
+            if len(x) == 1:
+                x = str(x)
+                x = x.replace('{', '').replace('}', '')
                 lst[i] = int(x)
-    
+            else:
+                lst[i] = 0
+
     return problem
 
 
 def getRowLocations(rowNumber):
     r = rowNumber
-    lst =  [(r, 0), (r, 1), (r, 2), (r, 3), (r, 4), (r, 5), (r, 6), (r, 7), (r, 8)]
+    lst = [(r, 0), (r, 1), (r, 2), (r, 3), (r, 4), (r, 5), (r, 6), (r, 7), (r, 8)]
     
     return lst
 
@@ -61,36 +71,122 @@ def getBoxLocations(location):
     return result
 
 
-
 def eliminate(problem, location, listOfLocations):
-    ll = listOfLocations
     count = 0
     a = []
-    
-    #Creates index from location argument
-    in_1 = location[0]
-    in_2 = location[1]
-    num = int(str(problem[in_1][in_2]).replace('{', '').replace('}', ''))
-    
-    #Counts number of apperances of value num using listOfLocations
-    for tup in ll: 
-        for i in problem[tup[0]][tup[1]]:
-            if i == num:
-                a.append(tup)
-                count = count + 1
-    
-    #Removes num value from array if num appears in listOfLocations            
-    for tup in a:
-        problem[tup[0]][tup[1]].remove(num)
-        
+
+    if len(problem[location[0]][location[1]]) == 1:
+        # Assigns set element from 'location' to num
+        num = int(str(problem[location[0]][location[1]]).replace('{', '').replace('}', ''))
+
+        # Counts number of appearances of value num using listOfLocations
+        for i in listOfLocations:
+            for e in problem[i[0]][i[1]]:
+                if e == num:
+                    a.append(i)
+                    count += 1
+
+        if location in a:
+            a.remove(location)
+            count -= 1
+
+        # Removes num value from set if num appears in listOfLocations
+        for x in a:
+            if len(problem[x[0]][x[1]]) > 1:
+                try:
+                    problem[x[0]][x[1]].remove(num)
+                except:
+                    print(num)
+                    print(x)
+
+                    print("value not found in array during 'eliminate()'.")
+
     return count
 
 
 def isSolved(problem):
+    #Assigns True if all sets in problem contain 1 element. Assigns False otherwise.
     result = all([len(problem[r][c]) == 1 for r in range(0, 9)
                                         for c in range(0, 9)])
                                 
     return result
     
+
+def solve(problem):
+    problem = convertToSets(problem)
+    times = 0
+    end = False
+    while not end:
+        total = 0
+        for a,b in enumerate(problem):
+            for x,y in enumerate(b):
+                list0fLoc = []
+                location = (a, x)
+
+                row = getRowLocations(a)
+                for i in row:
+                    list0fLoc.append(i)
+                column = getColumnLocations(x)
+                for i in column:
+                    if i in list0fLoc:
+                        continue
+                    else:
+                        list0fLoc.append(i)
+                box = getBoxLocations(location)
+                for i in box:
+                    if i in list0fLoc:
+                        continue
+                    else:
+                        list0fLoc.append(i)
+
+                if eliminate(problem, location, list0fLoc) > 0:
+                    total += 1
+
+        if total == 0:
+            times += 1
+            '''print(times)
+            print(total)
+
+            print(problem[0])
+            print(problem[1])
+            print(problem[2])
+            print(problem[3])
+            print(problem[4])
+            print(problem[5])
+            print(problem[6])
+            print(problem[7])
+            print(problem[8])'''
+
+        if times > 3:
+            end = True
+
+    for lst in problem:
+        if len(lst) == 9:
+            result = True
+        else:
+            result = False
+            break
+
+    return result
+
+
+
+problem = [ [ 0, 1, 0,   0, 5, 0,   0, 3, 4 ],
+         [ 5, 0, 4,   0, 0, 6,   0, 0, 9 ],
+         [ 0, 9, 0,   0, 4, 1,   0, 0, 0 ],
+
+        [ 0, 0, 0,   0, 0, 4,   3, 7, 0 ],
+        [ 7, 0, 1,   0, 0, 0,   6, 0, 8 ],
+         [ 0, 6, 2,   8, 0, 0,   0, 0, 0 ],
+
+        [ 0, 0, 0,   4, 8, 0,   0, 6, 0 ],
+        [ 9, 0, 0,   6, 0, 0,   8, 0, 5 ],
+         [ 6, 8, 0,   0, 7, 0,   0, 1, 0 ] ]
+
+
+
+
+solve(problem)
+
 
 

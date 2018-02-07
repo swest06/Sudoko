@@ -9,7 +9,6 @@ def read_sudoku(file):
 
 
 def convertToSets(problem):
-
     for lst in problem:
         for i, x in enumerate(lst):
             if x == 0:
@@ -48,7 +47,6 @@ def getColumnLocations(columnNumber):
 
 
 def getBoxLocations(location):
-    
     result = []
     l = location
     
@@ -113,6 +111,8 @@ def isSolved(problem):
     
 
 def solve(problem):
+    '''Takes sudoku problem in int form and solves through iteration'''
+
     problem = convertToSets(problem)
     times = 0
     end = False
@@ -170,23 +170,37 @@ def solve(problem):
     return result
 
 
+def print_sudoku(problem):
+    '''Takes sudoku problem in its int form and prints out sudoku grid'''
+
+    print("+-------" * 3, end= "+"), print("")
+    for i, lst in enumerate(problem):
+
+        #Prints elements in each row
+        print(("| " + "{}{}{}| " * 3)
+              .format(*[str(element) + " " if element > 1 else ". " for element in lst]))
+
+        #Seperates every 3x3 grid row after every 3rd row in array(problem)
+        if i % 3 > 1:
+            print("+-------" * 3, end= "+"), print("")
+
 
 problem = [ [ 0, 1, 0,   0, 5, 0,   0, 3, 4 ],
-         [ 5, 0, 4,   0, 0, 6,   0, 0, 9 ],
-         [ 0, 9, 0,   0, 4, 1,   0, 0, 0 ],
+        [ 5, 0, 4,   0, 0, 6,   0, 0, 9 ],
+        [ 0, 9, 0,   0, 4, 1,   0, 0, 0 ],
 
         [ 0, 0, 0,   0, 0, 4,   3, 7, 0 ],
         [ 7, 0, 1,   0, 0, 0,   6, 0, 8 ],
-         [ 0, 6, 2,   8, 0, 0,   0, 0, 0 ],
+        [0, 6, 2,   8, 0, 0,   0, 0, 0 ],
 
         [ 0, 0, 0,   4, 8, 0,   0, 6, 0 ],
         [ 9, 0, 0,   6, 0, 0,   8, 0, 5 ],
-         [ 6, 8, 0,   0, 7, 0,   0, 1, 0 ] ]
+        [ 6, 8, 0,   0, 7, 0,   0, 1, 0 ] ]
 
 
 
-
-solve(problem)
+print_sudoku(problem)
+#solve(problem)
 
 
 

@@ -178,11 +178,44 @@ def print_sudoku(problem):
 
         #Prints elements in each row
         print(("| " + "{}{}{}| " * 3)
-              .format(*[str(element) + " " if element > 1 else ". " for element in lst]))
+              .format(*[str(element) + " " if element > 0 else ". " for element in lst]))
 
         #Seperates every 3x3 grid row after every 3rd row in array(problem)
         if i % 3 > 1:
             print("+-------" * 3, end= "+"), print("")
+
+
+def main():
+    '''Main function'''
+
+    finished = False
+
+    while not finished:
+        file = input("Please type/paste your file: ")
+            try:
+                problem = read_sudoku(file)
+
+                #Prints unsolved problem
+                print("Here is the unsolved puzzle:")
+                print_sudoku(problem)
+                print("")
+
+                #Solves problem
+                solve(problem)
+                convertToInts(problem)
+
+                #Prints solved problem
+                print("Here is the solved puzzle")
+                print_sudoku(problem)
+                print("")
+
+                #Prints unsolved locations
+                if not isSolved(problem):
+
+
+            except:
+                print("File could not be read.")
+
 
 
 problem = [ [ 0, 1, 0,   0, 5, 0,   0, 3, 4 ],
@@ -199,8 +232,10 @@ problem = [ [ 0, 1, 0,   0, 5, 0,   0, 3, 4 ],
 
 
 
+
+solve(problem)
+convertToInts(problem)
 print_sudoku(problem)
-#solve(problem)
 
 
 

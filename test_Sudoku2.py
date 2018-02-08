@@ -14,7 +14,7 @@ def test_ConvertToInts():
     sets = [[{1, 2}, {3}, {4}], [{1}, {3, 5, 7}, {2}], [{2, 3}, {2}, {3}]]
     new_array2 = [[0 , 3, 4], [1, 0, 2], [0, 2, 3]]
     assert new_array2 == convertToInts(sets)
-
+    assert type(array[0][0]) == set
 
 def test_GetRowLocations():
     row_3 = [(3, 0), (3, 1), (3, 2), (3, 3), (3, 4), (3, 5), (3, 6), (3, 7), (3, 8)]
@@ -43,7 +43,6 @@ def test_IsSolved():
     array = [[{1}] * 9] * 9
     assert all([len(array[r][c]) == 1 for r in range(0, 9) for c in range(0, 9)])) == True
     assert isSolved(array) == True
-    
 
     array[3][5] = {1, 2}
     assert all([len(array[r][c]) == 1 for r in range(0, 9) for c in range(0, 9)])) == False
@@ -99,7 +98,7 @@ def test_Solve():
                    [4, 8, 3,  1, 7, 6,  5, 9, 2],
                    [2, 6, 7,  4, 9, 5,  1, 3, 8],
                    [9, 5, 1,  2, 3, 8,  4, 7, 6]]
-        
+
     tryToSolve(sudoku1, solved1)
     tryToSolve(sudoku2, solved2)
 

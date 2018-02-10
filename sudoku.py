@@ -84,6 +84,7 @@ def eliminate(problem, location, listOfLocations):
                     a.append(i)
                     count += 1
 
+        # 'a' contains new list of locations that contain 'num' excluding 'location'
         if location in a:
             a.remove(location)
             count -= 1
@@ -94,10 +95,7 @@ def eliminate(problem, location, listOfLocations):
                 try:
                     problem[x[0]][x[1]].remove(num)
                 except:
-                    print(num)
-                    print(x)
-
-                    print("value not found in array during 'eliminate()'.")
+                    print("value {} not found in array location {} during 'eliminate()'.").format(num, x)
 
     return count
 
@@ -144,18 +142,6 @@ def solve(problem):
 
         if total == 0:
             times += 1
-            '''print(times)
-            print(total)
-
-            print(problem[0])
-            print(problem[1])
-            print(problem[2])
-            print(problem[3])
-            print(problem[4])
-            print(problem[5])
-            print(problem[6])
-            print(problem[7])
-            print(problem[8])'''
 
         if times > 3:
             end = True
@@ -192,50 +178,53 @@ def main():
 
     while not finished:
         file = input("Please type/paste your file: ")
-            try:
-                problem = read_sudoku(file)
+        try:
+            problem = read_sudoku(file)
 
-                #Prints unsolved problem
-                print("Here is the unsolved puzzle:")
-                print_sudoku(problem)
+            #Prints unsolved problem
+            print("Here is the unsolved puzzle:")
+            print_sudoku(problem)
+            print("")
+
+            #Solves problem
+            solve(problem)
+            convertToInts(problem)
+
+            #Prints solved problem
+            print("Here is the solved puzzle")
+            print_sudoku(problem)
+            print("")
+
+            #Prints unsolved locations
+            if not isSolved(problem):
+                convertToSets(problem)
+                for r, lst in enumerate(problem):
+                    for i, e in enumerate(lst):
+                        if len(e) > 1:
+                            loc = ("({}:{})").format(r, i)
+                            print("Location {} may contain these possible values {}").format(loc, e)
+                            print("")
+        except:
+            print("File could not be read.")
+            print("")
+
+        #replay loop
+        ask = False
+        while not ask:
+            reply = input("Do you want to try with another problem? Y/N: ").lower()
+            print("")
+            if reply[0] == "y":
+                ask = True
+            elif reply[0] == "n":
+                ask = True
+                finished = True
+            else:
+                print("Invalid input")
                 print("")
 
-                #Solves problem
-                solve(problem)
-                convertToInts(problem)
-
-                #Prints solved problem
-                print("Here is the solved puzzle")
-                print_sudoku(problem)
-                print("")
-
-                #Prints unsolved locations
-                if not isSolved(problem):
+    print("Goodbye.")
 
 
-            except:
-                print("File could not be read.")
-
-
-
-problem = [ [ 0, 1, 0,   0, 5, 0,   0, 3, 4 ],
-        [ 5, 0, 4,   0, 0, 6,   0, 0, 9 ],
-        [ 0, 9, 0,   0, 4, 1,   0, 0, 0 ],
-
-        [ 0, 0, 0,   0, 0, 4,   3, 7, 0 ],
-        [ 7, 0, 1,   0, 0, 0,   6, 0, 8 ],
-        [0, 6, 2,   8, 0, 0,   0, 0, 0 ],
-
-        [ 0, 0, 0,   4, 8, 0,   0, 6, 0 ],
-        [ 9, 0, 0,   6, 0, 0,   8, 0, 5 ],
-        [ 6, 8, 0,   0, 7, 0,   0, 1, 0 ] ]
-
-
-
-
-solve(problem)
-convertToInts(problem)
-print_sudoku(problem)
-
-
+if __name__ == main():
+    main()
 

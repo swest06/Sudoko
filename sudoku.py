@@ -48,7 +48,6 @@ def getColumnLocations(columnNumber):
 
 def getBoxLocations(location):
     result = []
-    l = location
     
     ary = [[(0, 0), (0, 1), (0, 2), (1, 0), (1, 1), (1, 2), (2, 0), (2, 1), (2, 2)],
         [(0, 3), (0, 4), (0, 5), (1, 3), (1, 4), (1, 5), (2, 3), (2, 4), (2, 5)],
@@ -63,7 +62,7 @@ def getBoxLocations(location):
     #Finds relevant list in ary that contains location tuple
     for lst in ary:
         for i, e in enumerate(lst):
-            if e == l:
+            if e == location:
                result = lst
                
     return result
@@ -110,9 +109,9 @@ def isSolved(problem):
 
 def solve(problem):
     '''Takes sudoku problem in int form and solves through iteration'''
+    times = 0
 
     problem = convertToSets(problem)
-    times = 0
     end = False
     while not end:
         total = 0
@@ -145,13 +144,7 @@ def solve(problem):
 
         if times > 3:
             end = True
-
-    for lst in problem:
-        if len(lst) == 9:
-            result = True
-        else:
-            result = False
-            break
+    result = isSolved(problem)
 
     return result
 
@@ -188,22 +181,25 @@ def main():
 
             #Solves problem
             solve(problem)
-            convertToInts(problem)
 
+            # Prints unsolved locations
+            if not isSolved(problem):
+                print("Puzzle could not be fully solved.")
+                for r, lst in enumerate(problem):
+                    for i, e in enumerate(lst):
+                        if len(e) > 1:
+                            loc = ("({}:{})").format(r, i)
+
+                            print("Location {} may contain these possible values {}".format(loc, e))
+
+
+            convertToInts(problem)
             #Prints solved problem
             print("Here is the solved puzzle")
             print_sudoku(problem)
             print("")
 
-            #Prints unsolved locations
-            if not isSolved(problem):
-                convertToSets(problem)
-                for r, lst in enumerate(problem):
-                    for i, e in enumerate(lst):
-                        if len(e) > 1:
-                            loc = ("({}:{})").format(r, i)
-                            print("Location {} may contain these possible values {}").format(loc, e)
-                            print("")
+
         except:
             print("File could not be read.")
             print("")

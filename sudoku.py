@@ -1,5 +1,6 @@
-'''Sean West swest06.
+'''Sean West swest06. ID:13132362
     Sudoku solver.'''
+
 
 def read_sudoku(file):
     stream = open(file)
@@ -59,7 +60,7 @@ def getBoxLocations(location):
         [(6, 3), (6, 4), (6, 5), (7, 3), (7, 4), (7, 5), (8, 3), (8, 4), (8, 5)],
         [(6, 6), (6, 7), (6, 8), (7, 6), (7, 7), (7, 8), (8, 6), (8, 7), (8, 8)]]
 
-    #Finds relevant list in ary that contains location tuple
+    # Finds relevant list in ary that contains location tuple
     for lst in ary:
         for i, e in enumerate(lst):
             if e == location:
@@ -100,12 +101,12 @@ def eliminate(problem, location, listOfLocations):
 
 
 def isSolved(problem):
-    #Assigns True if all sets in problem contain 1 element. Assigns False otherwise.
+    # Assigns True if all sets in problem contain 1 element. Assigns False otherwise.
     result = all([len(problem[r][c]) == 1 for r in range(0, 9)
                                         for c in range(0, 9)])
                                 
     return result
-    
+
 
 def solve(problem):
     '''Takes sudoku problem in int form and solves through iteration'''
@@ -115,8 +116,10 @@ def solve(problem):
     end = False
     while not end:
         total = 0
-        for a,b in enumerate(problem):
-            for x,y in enumerate(b):
+
+        # Iterates through every location getting all locations.
+        for a, b in enumerate(problem):
+            for x, y in enumerate(b):
                 list0fLoc = []
                 location = (a, x)
 
@@ -141,8 +144,8 @@ def solve(problem):
 
         if total == 0:
             times += 1
-
-        if times > 3:
+        # Double checks array before ending loop.
+        if times > 2:
             end = True
     result = isSolved(problem)
 
@@ -152,16 +155,16 @@ def solve(problem):
 def print_sudoku(problem):
     '''Takes sudoku problem in its int form and prints out sudoku grid'''
 
-    print("+-------" * 3, end= "+"), print("")
+    print("+-------" * 3, end="+"), print("")
     for i, lst in enumerate(problem):
 
-        #Prints elements in each row
+        # Prints elements in each row
         print(("| " + "{}{}{}| " * 3)
               .format(*[str(element) + " " if element > 0 else ". " for element in lst]))
 
-        #Seperates every 3x3 grid row after every 3rd row in array(problem)
+        # Separates every 3x3 grid row after every 3rd row in array(problem)
         if i % 3 > 1:
-            print("+-------" * 3, end= "+"), print("")
+            print("+-------" * 3, end="+"), print("")
 
 
 def main():

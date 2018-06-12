@@ -1,5 +1,5 @@
 # Sudoku
 Sudoku Solver (Python)
-with:
-  Unittest
+with
+  Unittest &
   Pytest
